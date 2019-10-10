@@ -8,11 +8,16 @@
     <title>Survey</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery.js"></script>
+    <style> 
+      body{
+          background-color: coral;
+      }
+      </style>
 </head>
 
 <body>
     <h1>Survey</h1>
-    <a href="/">Home</a>
+    <a class="btn btn-default btn-lg" href="/" role="button">Home</a>
 
     <script>
 
@@ -49,7 +54,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <h2>Survey</h2>
 
@@ -188,6 +192,22 @@
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary" id="submit-btn">
             Submit</button>
+
+        <!-- Modal -->
+        <div id="friendInputModal" class="modal fade" role="dialog" aria-hidden="true" width="300px">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Your Best Friend</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h5 id="friendInput"></h5>
+                    <img id="profPic" width="30%" src="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -213,9 +233,16 @@
             // Check to make sure we're grabbing values
             console.log(friendInput);
             // Ajax to send it to our api/friends array of objects
-            $.post("/api/friends", friendInput, function (data) {
-                console.log(data);
-            })
+            $.post("/api/friends", friendInput,
+                function (data) {
+                    console.log(friendInput);
+                    // Name
+                    $("#friendInput").text(data.name);
+                    // Picture
+                    $("#profPic").attr("src", data.photo);
+                    // Toggle the modal on to display the best friend
+                    $("#friendInputModal").modal("toggle");
+                });
         })
 
 
